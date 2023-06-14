@@ -1,0 +1,18 @@
+## Interface: 100100
+## Title: Rapid ReQueue
+## Notes: Opens the PVE Frame to quickly jump back into random dungeons!
+## Author: Eyevou
+## Version: 10.1.0.013.TEST
+## IconTexture: Interface\AddOns\RapidRequeue\Images\icon.tga
+
+## SavedVariables: RapidReQueue_Global
+## SavedVariablesPerCharacter: 
+
+## Locale Files
+Locale/enUS.lua
+Locale/enGB.lua
+Locale/deDE.lua
+
+## Main Content
+main.lua
+main.xml
