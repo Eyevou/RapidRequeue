@@ -7,10 +7,10 @@ RRQ_PopOnlyAfterDungeon = true
 
 --[[ Global Variables, RunOnce ]]
 -- 
-RapidReQueue_Global = {
-	REV = 1,
-	autoqueue = true,
-}
+--RapidReQueue_Global = {
+--	REV = 1,
+--	autoqueue = true,
+--}
 
 local f = CreateFrame("Frame", "ReQueueFrame", UIParent)
 f:RegisterEvent("UPDATE_INSTANCE_INFO")
@@ -24,6 +24,7 @@ local function ReQueueFrame_OnEvent(self, event, ...)
 		if RRQ_PopOnlyAfterDungeon then
 			Random_ReQueue_OnceRun_Frame_LocVar = 1
 			RRQ_GroupFrameShow()
+			RRQOnUpdateFilter_Timer = true
 		else
 			Random_ReQueue_OnceRun_Frame_LocVar = nil
 		end
@@ -51,6 +52,15 @@ function RRQ_ClickFrame()
 	LFDQueueFrameFindGroupButton:Click()
 end
 
+function ReQueueFrame_OnUpdate()
+	if(RRQOnUpdateFilter_Timer and not IsInInstance())then
+		if(LFDParentFrame:IsShown())then
+			C_Timer.After(3, RRQOnUpdateFilter_Timer_function)
+			RRQOnUpdateFilter_Timer = nil
+		end
+	end
+end
+
 function RRQ_GroupFrameShow()
 	
 	if not UnitOnTaxi("player") then
@@ -60,7 +70,7 @@ function RRQ_GroupFrameShow()
 			Random_ReQueue_OnceRun_Frame_LocVar = 1
 		end
 		if IsInInstance() then
-			-- This toggles the frame on and back off, to set positioning, then shows a persistant frame. The final line fixes any graphical errors.
+			-- This toggles the frame on and back off, to set positioning, then shows a persistent frame. The final line fixes any graphical errors.
 			PVEFrame_ShowFrame("GroupFinderFrame", LFDParentFrame)
 			PVEFrame_ToggleFrame("GroupFinderFrame", LFDParentFrame)
 			PVEFrame:Show()
@@ -76,6 +86,11 @@ function RRQ_GroupFrameShow()
 		end
 		RRQ_PVEFrameCloseButton_NoInstanceLock = nil
 	end
+end
+
+function RRQOnUpdateFilter_Timer_function()
+	PVEFrame_ToggleFrame("GroupFinderFrame", LFDParentFrame)
+	PVEFrame_ShowFrame("GroupFinderFrame", LFDParentFrame)
 end
 
 function RRQ_SlashCommand()
@@ -94,3 +109,4 @@ SLASH_RR3 = "/rapidrequeue"
 SlashCmdList["RAPIDREQUEUE"] = RRQ_SlashCommand;
 
 f:SetScript("OnEvent", ReQueueFrame_OnEvent)
+f:SetScript("OnUpdate", ReQueueFrame_OnUpdate)
