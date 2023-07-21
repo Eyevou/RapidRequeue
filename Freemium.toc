@@ -1,7 +1,0 @@
-## Interface: 100105
-## Title: Freemium
-## Notes: Automatically hides the subscription and mail frames from appearing while on a Trial Account.
-## Author: Eyevou
-## Version: 0.27
-## IconTexture: Interface\AddOns\Freemium\Images\icon.tga
-main.lua
