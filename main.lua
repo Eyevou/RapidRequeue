@@ -1,11 +1,10 @@
----@diagnostic disable: undefined-global
 --[[Special thanks:
 	Treesus-Anetheron, Beta Tester!
 	Allcoast for Bug reporting!
 ]]--
 
-RRQ_PopOnlyAfterDungeon = true
-local rrq_test = false
+local RRQ_PopOnlyAfterDungeon = true
+local rrq_pvp_test = false
 
 
 local f = CreateFrame("Frame", "ReQueueFrame", UIParent)
@@ -45,7 +44,7 @@ local function ReQueueFrame_OnEvent(self, event, ...)
 	end
 	--Used in PvP only.
 	if event == "PLAYER_DEAD" then
-		if rrq_test then
+		if rrq_pvp_test then
 			RepopMe()
 		end
 	end
@@ -62,7 +61,7 @@ function ReQueueFrame_OnUpdate()
 			RRQOnUpdateFilter_Timer = nil
 		end
 	end
-	if rrq_test then
+	if rrq_pvp_test then
 		if GetBattlefieldInstanceExpiration() > 0 and GetBattlefieldInstanceExpiration() < 119400 then
 			LeaveBattlefield()
 			--Screenshot()
@@ -112,11 +111,9 @@ end
 
 SLASH_RR1 = "/rr"
 SlashCmdList["RR"] = RRQ_SlashCommand;
-SLASH_RR2 = "/randomrequeue" -- Old name
-SlashCmdList["RANDOMREQUEUE"] = RRQ_SlashCommand; -- Old name
-SLASH_RR3 = "/rapidrequeue"
+SLASH_RR2 = "/rapidrequeue"
 SlashCmdList["RAPIDREQUEUE"] = RRQ_SlashCommand;
-SLASH_RR4 = "/requeue"
+SLASH_RR3 = "/requeue"
 SlashCmdList["REQUEUE"] = RRQ_SlashCommand;
 
 f:SetScript("OnEvent", ReQueueFrame_OnEvent)
